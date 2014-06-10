@@ -11,7 +11,7 @@ JavaScript Form Validator inspired by the great Validate.js
 * [ ] Select type of validation (onsubmit or onblur)
 * [ ] Add examples (/test)
 * [ ] Better comments
-* [ ] Docummentation
+* [ ] Documentation
 
 ## Author
 Alejandro Perez Martin
