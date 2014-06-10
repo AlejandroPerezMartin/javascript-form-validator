@@ -2,7 +2,7 @@ JavaScript Form Validator
 =========================
 JavaScript Form Validator inspired by the great Validate.js
 
-## TODO
+## TO-DO
 * [ ] Add credit card regex
 * [ ] Add equalto regex
 * [ ] Add numeric regex
@@ -12,6 +12,8 @@ JavaScript Form Validator inspired by the great Validate.js
 * [ ] Add examples (/test)
 * [ ] Better comments
 * [ ] Documentation
+* [ ] Upload to CodePen
+
 
 ## Author
 Alejandro Perez Martin
