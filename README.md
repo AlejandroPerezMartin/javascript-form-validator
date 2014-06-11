@@ -1,6 +1,7 @@
 JavaScript Form Validator
 =========================
 JavaScript Form Validator inspired by the great Validate.js
+_No dependencies!_
 
 ## TO-DO
 * [ ] Add credit card regex
@@ -8,12 +9,10 @@ JavaScript Form Validator inspired by the great Validate.js
 * [ ] Add numeric regex
 * [ ] Add alphanumeric regex
 * [ ] Add url regex
-* [ ] Select type of validation (onsubmit or onblur)
+* [x] Live validation support (validate field on key press)
 * [ ] Add examples (/test)
-* [ ] Better comments
+* [ ] Improve comments
 * [ ] Documentation
-* [ ] Upload to CodePen
-
 
 ## Author
 Alejandro Perez Martin

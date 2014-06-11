@@ -132,22 +132,32 @@
          * @param {String} formName Value of attribute 'name' of the form
          * @param {Array} fields Array of objects with the following structure [{name: "fieldName", rules: ["rule", ...]}, { ... }]
          */
-        FormValidator = function (formName, fields) {
+        FormValidator = function (formName, fields, liveValidation) {
             this.fields = fields;
             this.form = this.getFormByName(formName);
 
             var self = this;
 
-            // Validate field after losing focus
-            for (var i = 0, len = this.fields.length; i < len; i += 1) {
-                (function (i) {
+            if (liveValidation === 'live_validation') {
+                // Validate field after losing focus
+                for (var i = 0, len = this.fields.length; i < len; i += 1) {
+                    (function (i) {
 
-                    var currentField = self.fields[i];
+                        var currentField = self.fields[i];
 
-                    self.form[currentField.name].addEventListener('blur', function () {
-                        self.validateField(currentField);
-                    });
-                })(i);
+                        self.form[currentField.name].addEventListener('blur', function () {
+
+                            self.validateField(currentField);
+
+                            // Validate field on keyboard key release
+                            this.addEventListener('keyup', function () {
+                                self.validateField(currentField);
+                            });
+
+                        });
+
+                    })(i);
+                }
             }
 
             // Validate form on submit
