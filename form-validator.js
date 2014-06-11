@@ -2,7 +2,7 @@
  *
  * Copyright (c) 2014 Alejandro Perez Martin (AlePerez92)
  *
- * @name          JavaScript Form Validator (Form-Validator.js)
+ * @name          JavaScript Form Validator (JS-Form-Validator.js)
  * @description   JavaScript form Validator, inspired by Validate.js
  * @version       1.0
  * @build         June 10, 2014
@@ -23,7 +23,7 @@
      * @type {Object}
      */
     var errorMessages = {
-        required: "The %s field is required",
+        required: "This field is required",
         email: "You entered an invalid email",
         name: "The %s field only allows alphabetic characters, spaces and dashes",
         integer: "The %s field only accepts integers",
@@ -88,10 +88,13 @@
          */
         removeClass = function (element, className) {
             var newClass = ' ' + element.className.replace(/[\t\r\n]/g, ' ') + ' ';
+
             if (hasClass(element, className)) {
+
                 while (newClass.indexOf(' ' + className + ' ') >= 0) {
                     newClass = newClass.replace(' ' + className + ' ', ' ');
                 }
+
                 element.className = newClass.replace(/^\s+|\s+$/g, '');
             }
         },
@@ -105,7 +108,7 @@
          */
         removeNextSibling = function (element, siblingClass) {
             var nextSibling = element.nextSibling;
-            if (hasClass(nextSibling, siblingClass)) {
+            if (nextSibling && hasClass(nextSibling, siblingClass)) {
                 nextSibling.remove();
             }
         },
@@ -154,11 +157,11 @@
 
                     evt.preventDefault();
 
-                    if (!document.getElementsByClassName('.js-form-error-message')[0]) {
+                    if (!document.getElementsByClassName('js-form-error-message')[0]) {
 
                         var error_message_div = document.createElement('DIV');
                         error_message_div.className = 'js-form-error-message';
-                        error_message_div.innerHTML = "The form contains errors! Please, correct them before submiting.";
+                        error_message_div.innerHTML = '<span class="js-form-error-message-title">Ooooops!</span>This form seems to have errors.';
 
                         self.form.insertBefore(error_message_div, self.form.firstChild);
                     }
@@ -226,9 +229,10 @@
             if (length) {
                 if (!this.validators[rule](formField, parseInt(length))) {
 
-                    addClass(formField, 'js-form-invalid');
-                    removeNextSibling(formField, 'js-form-error');
-                    append(formField, '<span class="js-form-error">' + errorMessages[rule].replace('%s', field.name).replace('%l', length) + '</span>');
+                    removeClass(formField, 'js-form-field-valid');
+                    addClass(formField, 'js-form-field-invalid');
+                    removeNextSibling(formField, 'js-form-field-error');
+                    append(formField, '<span class="js-form-field-error">' + errorMessages[rule].replace('%s', field.name).replace('%l', length) + '</span>');
 
                     return false; // stop checking rules if one of them doesn't pass the test
                 }
@@ -237,9 +241,10 @@
             else {
                 if (!this.validators[rule](formField)) {
 
-                    addClass(formField, 'js-form-invalid');
-                    removeNextSibling(formField, 'js-form-error');
-                    append(formField, '<span class="js-form-error">' + errorMessages[rule].replace('%s', field.name) + '</span>');
+                    removeClass(formField, 'js-form-field-valid');
+                    addClass(formField, 'js-form-field-invalid');
+                    removeNextSibling(formField, 'js-form-field-error');
+                    append(formField, '<span class="js-form-field-error">' + errorMessages[rule].replace('%s', field.name) + '</span>');
 
                     return false; // stop checking rules if one of them doesn't pass the test
                 }
@@ -247,9 +252,9 @@
         }
 
         // Field is valid
-        removeNextSibling(formField, 'js-form-error');
-        removeClass(formField, 'js-form-invalid');
-        addClass(formField, 'js-form-valid');
+        removeNextSibling(formField, 'js-form-field-error');
+        removeClass(formField, 'js-form-field-invalid');
+        addClass(formField, 'js-form-field-valid');
 
         return true;
     };
