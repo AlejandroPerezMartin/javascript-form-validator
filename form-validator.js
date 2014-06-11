@@ -5,7 +5,7 @@
  * @name          JavaScript Form Validator (JS-Form-Validator.js)
  * @description   JavaScript form Validator, inspired by Validate.js
  * @version       1.0
- * @build         June 10, 2014
+ * @build         June 11, 2014
  * @url           http://github.com/alejandroperezmartin/javascript-form-validator
  *
  * @author        Alejandro Perez Martin
