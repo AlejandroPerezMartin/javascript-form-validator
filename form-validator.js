@@ -3,7 +3,7 @@
  * Copyright (c) 2014 Alejandro Perez Martin (AlePerez92)
  *
  * @name          JavaScript Form Validator (JS-Form-Validator.js)
- * @description   JavaScript form Validator, inspired by Validate.js
+ * @description   JavaScript form Validator.
  * @version       1.0
  * @build         June 11, 2014
  * @url           http://github.com/alejandroperezmartin/javascript-form-validator
@@ -23,20 +23,25 @@
      * @type {Object}
      */
     var errorMessages = {
-        required: "This field is required",
+        alphanumeric: "The %s field only allow numbers and letters",
+        defaultError: "This field is invalid",
         email: "You entered an invalid email",
-        name: "The %s field only allows alphabetic characters, spaces and dashes",
+        equal_to: "The %s field value must to be equal to %a",
+        exact_length: "The %s field value must to be %a characters in length",
+        greater_than: "The %s field value must to be greater than %a",
         integer: "The %s field only accepts integers",
+        less_than: "The %s field value must be less than %a",
+        match: "The %s field should match '%a'",
+        max_length: "The %s field value can't exceed %a charcters",
+        min_length: "The %s field value must be at least %a characters in length",
+        name: "The %s field only allows alphabetic characters, spaces and dashes",
+        required: "This field is required",
         spanish_dni: "The %s field only allows 8 numbers and 1 character",
-        spanish_phone: "The %s field only allows 9 numbers",
         spanish_mobile: "The %s field only allows 9 numbers",
+        spanish_phone: "The %s field only allows 9 numbers",
         spanish_postal: "The %s field only allows 5 numbers",
-        less_than: "The %s field value must be less than %l",
-        greater_than: "The %s field value must to be greater than %l",
-        equal_to: "The %s field value must to be equal to %l",
-        min_length: "The %s field value must be at least %l characters in length",
-        max_length: "The %s field value can't exceed %l charcters",
-        exact_length: "The %s field value must to be %l characters in length>"
+        url: "This is not a valid URL",
+        username: "The %s field only allows numbers, letters, '-' and '_'"
     },
 
 
@@ -45,13 +50,16 @@
          *
          * @type {RegExp}
          */
-        emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        integerRegex = /^\-?[0-9]+$/,
+        alphanumericRegex = /^[a-zA-Z0-9]+$/,
         charsRegex = /^[A-z- 'áéíóúñçÁÉÍÓÚÑÇ]+$/,
+        emailRegex = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
+        integerRegex = /^\-?[0-9]+$/,
+        spanishDniRegex = /^[0-9]{8}[a-zA-Z]{1}$/,
         spanishMobileRegex = /^[67]{1}[0-9]{8}$/,
         spanishPhoneRegex = /^[6789]{1}[0-9]{8}$/,
-        spanishDniRegex = /^[0-9]{8}[a-zA-Z]{1}$/,
         spanishPostalRegex = /^[0-5]{1}[0-9]{4}$/,
+        urlRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
+        usernameRegex = /^[a-zA-Z0-9_-]+$/,
 
 
         /*
@@ -233,16 +241,16 @@
         for (var i = 0, len = field.rules.length; i < len; i++) {
 
             var rule = field.rules[i].split('=')[0], // get rule name
-                length = field.rules[i].split('=')[1]; // get rule parameter value
+                arg = field.rules[i].split('=')[1]; // get rule parameter
 
             // Rule with parameters
-            if (length) {
-                if (!this.validators[rule](formField, parseInt(length))) {
+            if (arg) {
+                if (!this.validators[rule](formField, arg)) {
 
                     removeClass(formField, 'js-form-field-valid');
                     addClass(formField, 'js-form-field-invalid');
                     removeNextSibling(formField, 'js-form-field-error');
-                    append(formField, '<span class="js-form-field-error">' + errorMessages[rule].replace('%s', field.name).replace('%l', length) + '</span>');
+                    append(formField, '<span class="js-form-field-error">' + ((errorMessages[rule]) ? errorMessages[rule].replace('%s', field.name).replace('%a', arg) : errorMessages['defaultError']) + '</span>');
 
                     return false; // stop checking rules if one of them doesn't pass the test
                 }
@@ -254,7 +262,7 @@
                     removeClass(formField, 'js-form-field-valid');
                     addClass(formField, 'js-form-field-invalid');
                     removeNextSibling(formField, 'js-form-field-error');
-                    append(formField, '<span class="js-form-field-error">' + errorMessages[rule].replace('%s', field.name) + '</span>');
+                    append(formField, '<span class="js-form-field-error">' + ((errorMessages[rule]) ? errorMessages[rule].replace('%s', field.name) : errorMessages['defaultError']) + '</span>');
 
                     return false; // stop checking rules if one of them doesn't pass the test
                 }
@@ -277,20 +285,45 @@
      * @return {Boolean} Returns true if regular expression test is passed, otherwise false
      */
     FormValidator.prototype.validators = {
+        alphanumeric: function (field) {
+            return alphanumericRegex.test(field.value);
+        },
+        email: function (field) {
+            return emailRegex.test(field.value);
+        },
+        equal_to: function (field, value) {
+            return (integerRegex.test(value) && field.value === parseInt(value));
+        },
+        exact_length: function (field, length) {
+            return (integerRegex.test(length) && field.value.length === parseInt(length));
+        },
+        greater_than: function (field, value) {
+            return (integerRegex.test(field.value) && integerRegex.test(value) && field.value >= parseInt(value));
+        },
+        integer: function (field) {
+            return integerRegex.test(field.value);
+        },
+        less_than: function (field, value) {
+            return (integerRegex.test(field.value) && integerRegex.test(value) && field.value <= parseInt(value));
+        },
+        match: function (field, value) {
+            console.log(value);
+            return (alphanumericRegex.test(field.value) && alphanumericRegex.test(value) && field.value === value);
+        },
+        max_length: function (field, length) {
+            return (integerRegex.test(length) && field.value.length <= parseInt(length));
+        },
+        min_length: function (field, length) {
+            return (integerRegex.test(length) && field.value.length >= parseInt(length));
+        },
+        name: function (field) {
+            return charsRegex.test(field.value);
+        },
         required: function (field) {
             if (field.type === 'checkbox' || field.type === 'radio') {
                 return field.checked;
             }
             return (field.value !== null && field.value !== '');
-        },
-        email: function (field) {
-            return emailRegex.test(field.value);
-        },
-        name: function (field) {
-            return charsRegex.test(field.value);
-        },
-        integer: function (field) {
-            return integerRegex.test(field.value);
         },
         spanish_dni: function (field) {
             if (spanishDniRegex.test(field.value)) {
@@ -308,24 +341,12 @@
         spanish_postal: function (field) {
             return (spanishPostalRegex.test(field.value));
         },
-        less_than: function (field, value) {
-            return (integerRegex.test(field.value) && integerRegex.test(value) && field.value <= value);
+        url: function (field) {
+            return urlRegex.test(field.value);
         },
-        greater_than: function (field, value) {
-            return (integerRegex.test(field.value) && integerRegex.test(value) && field.value >= value);
+        username: function (field) {
+            return usernameRegex.test(field.value);
         },
-        equal_to: function (field, value) {
-            return (integerRegex.test(value) && field.value === value);
-        },
-        min_length: function (field, length) {
-            return (integerRegex.test(length) && field.length >= length);
-        },
-        max_length: function (field, length) {
-            return (integerRegex.test(length) && field.length <= length);
-        },
-        exact_length: function (field, length) {
-            return (integerRegex.test(length) && field.length === length);
-        }
     };
 
     window.FormValidator = FormValidator;

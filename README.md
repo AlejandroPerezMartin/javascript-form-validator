@@ -7,16 +7,20 @@ JavaScript Form Validator inspired by the great Validate.js
 No dependencies!
 
 ## TO-DO
-* [ ] Add credit card regex
-* [ ] Add equalto regex
-* [ ] Add numeric regex
-* [ ] Add alphanumeric regex
-* [ ] Add url regex
-* [x] Live validation support (validate field on key press)
-* [ ] Default form CSS
-* [ ] Add examples (/test)
+* [ ] Add: credit card Regex
+* [x] Add: match Regex
+* [x] Add: match Regex
+* [x] Add: numeric Regex
+* [x] Add: alphanumeric Regex
+* [x] Add: url regex
+* [x] Add: default error message
+* [ ] Add: examples (/test)
+* [x] Add: Validate field on key press
+* [ ] Add: CSS styles
+* [ ] Add: LESS styles
+* [ ] Add: Gruntfile
 * [ ] Improve comments
-* [ ] Documentation
+* [ ] Add: Documentation
 
 ## Getting Started
 ...
@@ -27,6 +31,10 @@ No dependencies!
 ## Live Demo
 ...
 
+## Collaborate
+I'm new into JavaScript and I've created this as part of my learning experience. If you see something that's wrong or can be improved, please don't hesitate and tell me about it.
+
+Thank you!
 
 ## Author
 Alejandro Perez Martin
