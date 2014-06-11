@@ -1,7 +1,8 @@
 JavaScript Form Validator
 =========================
 JavaScript Form Validator inspired by the great Validate.js
-_No dependencies!_
+
+**No dependencies!**
 
 ## TO-DO
 * [ ] Add credit card regex
