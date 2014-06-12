@@ -14,11 +14,10 @@ No dependencies!
 * [x] Add: alphanumeric Regex
 * [x] Add: url regex
 * [x] Add: default error message
-* [ ] Add: examples (/test)
+* [ ] Add: examples (/demo)
 * [x] Add: Validate field on key press
-* [ ] Add: CSS styles
-* [ ] Add: LESS styles
-* [ ] Add: Gruntfile
+* [x] Add: CSS styles
+* [x] Add: Gruntfile
 * [ ] Improve comments
 * [ ] Add: Documentation
 

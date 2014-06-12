@@ -4,8 +4,8 @@
  *
  * @name          JavaScript Form Validator (JS-Form-Validator.js)
  * @description   JavaScript form Validator.
- * @version       1.0
- * @build         June 11, 2014
+ * @version       1.0.0
+ * @build         June 12, 2014
  * @url           http://github.com/alejandroperezmartin/javascript-form-validator
  *
  * @author        Alejandro Perez Martin
@@ -150,18 +150,15 @@
                 // Validate field after losing focus
                 for (var i = 0, len = this.fields.length; i < len; i += 1) {
                     (function (i) {
-
                         var currentField = self.fields[i];
 
                         self.form[currentField.name].addEventListener('blur', function () {
-
                             self.validateField(currentField);
 
                             // Validate field on keyboard key release
                             this.addEventListener('keyup', function () {
                                 self.validateField(currentField);
                             });
-
                         });
 
                     })(i);
@@ -245,24 +242,24 @@
 
             // Rule with parameters
             if (arg) {
-                if (!this.validators[rule](formField, arg)) {
+                if (!this.validators.rule(formField, arg)) {
 
                     removeClass(formField, 'js-form-field-valid');
                     addClass(formField, 'js-form-field-invalid');
                     removeNextSibling(formField, 'js-form-field-error');
-                    append(formField, '<span class="js-form-field-error">' + ((errorMessages[rule]) ? errorMessages[rule].replace('%s', field.name).replace('%a', arg) : errorMessages['defaultError']) + '</span>');
+                    append(formField, '<span class="js-form-field-error">' + ((errorMessages.rule) ? errorMessages.rule.replace('%s', field.name).replace('%a', arg) : errorMessages.defaultError) + '</span>');
 
                     return false; // stop checking rules if one of them doesn't pass the test
                 }
             }
             // Rule without parameters
             else {
-                if (!this.validators[rule](formField)) {
+                if (!this.validators.rule(formField)) {
 
                     removeClass(formField, 'js-form-field-valid');
                     addClass(formField, 'js-form-field-invalid');
                     removeNextSibling(formField, 'js-form-field-error');
-                    append(formField, '<span class="js-form-field-error">' + ((errorMessages[rule]) ? errorMessages[rule].replace('%s', field.name) : errorMessages['defaultError']) + '</span>');
+                    append(formField, '<span class="js-form-field-error">' + ((errorMessages.rule) ? errorMessages.rule.replace('%s', field.name) : errorMessages.defaultError) + '</span>');
 
                     return false; // stop checking rules if one of them doesn't pass the test
                 }
