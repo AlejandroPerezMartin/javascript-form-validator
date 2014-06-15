@@ -123,13 +123,13 @@
 
 
         /*
-         * Appends a HTML block to an element
+         * Appends a HTML block to a DOM element
          *
          * @param {Object} element DOM element
          * @param {String} newElement HTML string: '<p>Paragraph</p>'
          */
-        append = function (element, newElement) {
-            element.insertAdjacentHTML('afterend', newElement);
+        append = function (element, htmlBlock) {
+            element.insertAdjacentHTML('afterend', htmlBlock);
         },
 
 
@@ -147,11 +147,13 @@
             var self = this;
 
             if (liveValidation === 'live_validation') {
-                // Validate field after losing focus
+                
                 for (var i = 0, len = this.fields.length; i < len; i += 1) {
+                    
                     (function (i) {
                         var currentField = self.fields[i];
-
+                        
+                        // Validate field after losing focus
                         self.form[currentField.name].addEventListener('blur', function () {
                             self.validateField(currentField);
 
@@ -343,7 +345,7 @@
         },
         username: function (field) {
             return usernameRegex.test(field.value);
-        },
+        }
     };
 
     window.FormValidator = FormValidator;
