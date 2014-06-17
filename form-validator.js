@@ -147,12 +147,12 @@
             var self = this;
 
             if (liveValidation === 'live_validation') {
-                
+
                 for (var i = 0, len = this.fields.length; i < len; i += 1) {
-                    
+
                     (function (i) {
                         var currentField = self.fields[i];
-                        
+
                         // Validate field after losing focus
                         self.form[currentField.name].addEventListener('blur', function () {
                             self.validateField(currentField);
@@ -244,24 +244,24 @@
 
             // Rule with parameters
             if (arg) {
-                if (!this.validators.rule(formField, arg)) {
+                if (!this.validators[rule](formField, arg)) {
 
                     removeClass(formField, 'js-form-field-valid');
                     addClass(formField, 'js-form-field-invalid');
                     removeNextSibling(formField, 'js-form-field-error');
-                    append(formField, '<span class="js-form-field-error">' + ((errorMessages.rule) ? errorMessages.rule.replace('%s', field.name).replace('%a', arg) : errorMessages.defaultError) + '</span>');
+                    append(formField, '<span class="js-form-field-error">' + ((errorMessages[rule]) ? errorMessages[rule].replace('%s', field.name).replace('%a', arg) : errorMessages.defaultError) + '</span>');
 
                     return false; // stop checking rules if one of them doesn't pass the test
                 }
             }
             // Rule without parameters
             else {
-                if (!this.validators.rule(formField)) {
+                if (!this.validators[rule](formField)) {
 
                     removeClass(formField, 'js-form-field-valid');
                     addClass(formField, 'js-form-field-invalid');
                     removeNextSibling(formField, 'js-form-field-error');
-                    append(formField, '<span class="js-form-field-error">' + ((errorMessages.rule) ? errorMessages.rule.replace('%s', field.name) : errorMessages.defaultError) + '</span>');
+                    append(formField, '<span class="js-form-field-error">' + ((errorMessages[rule]) ? errorMessages[rule].replace('%s', field.name) : errorMessages.defaultError) + '</span>');
 
                     return false; // stop checking rules if one of them doesn't pass the test
                 }
