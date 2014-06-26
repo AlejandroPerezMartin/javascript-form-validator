@@ -5,7 +5,7 @@
  * @name          JavaScript Form Validator (JS-Form-Validator.js)
  * @description   JavaScript form Validator.
  * @version       1.0.0
- * @build         June 12, 2014
+ * @build         June 27, 2014
  * @url           http://github.com/alejandroperezmartin/javascript-form-validator
  *
  * @author        Alejandro Perez Martin
@@ -26,14 +26,14 @@
         alphanumeric: "The %s field only allow numbers and letters",
         defaultError: "This field is invalid",
         email: "You entered an invalid email",
-        equal_to: "The %s field value must to be equal to %a",
-        exact_length: "The %s field value must to be %a characters in length",
-        greater_than: "The %s field value must to be greater than %a",
+        equal_to: "The %s field must to be equal to %a",
+        exact_length: "The %s field must be exactly %a characters in length",
+        greater_than: "The %s field must be greater than %a",
         integer: "The %s field only accepts integers",
-        less_than: "The %s field value must be less than %a",
+        less_than: "The %s field must be less than %a",
         match: "The %s field should match '%a'",
-        max_length: "The %s field value can't exceed %a charcters",
-        min_length: "The %s field value must be at least %a characters in length",
+        max_length: "The %s field can't exceed %a charcters",
+        min_length: "The %s field must be at least %a characters in length",
         name: "The %s field only allows alphabetic characters, spaces and dashes",
         required: "This field is required",
         spanish_dni: "The %s field only allows 8 numbers and 1 character",
@@ -240,7 +240,14 @@
         for (var i = 0, len = field.rules.length; i < len; i++) {
 
             var rule = field.rules[i].split('=')[0], // get rule name
-                arg = field.rules[i].split('=')[1]; // get rule parameter
+                arg = field.rules[i].split('=')[1], // get rule parameter
+                isRequired = (field.rules.indexOf('required') !== -1),
+                isEmpty = (!formField.value || formField.value === '' || formField.value === undefined);
+
+            // If the field is not required and is empty, it's valid
+            if (!isRequired && isEmpty) {
+                break;
+            }
 
             // Rule with parameters
             if (arg) {
