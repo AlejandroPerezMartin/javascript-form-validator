@@ -146,6 +146,7 @@
 
             var self = this;
 
+            // Validate field while typing (after loosing focus once)
             if (liveValidation === 'live_validation') {
 
                 for (var i = 0, len = this.fields.length; i < len; i += 1) {
@@ -223,7 +224,7 @@
 
 
     /*
-     * Validate the field whose 'name' attribute is equal to parameter: <input name="@param">
+     * Validates the field whose 'name' attribute is equal to parameter: <input name="@param">
      *
      * @param {Object} field Field object containing name and rules
      * @return {Boolean} Returns true if the field is valid, otherwise false
