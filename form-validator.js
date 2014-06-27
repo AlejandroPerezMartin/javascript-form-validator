@@ -2,7 +2,7 @@
  *
  * Copyright (c) 2014 Alejandro Perez Martin (AlePerez92)
  *
- * @name          JavaScript Form Validator (JS-Form-Validator.js)
+ * @name          JavaScript Form Validator (Form-Validator.js)
  * @description   JavaScript form Validator.
  * @version       1.0.0
  * @build         June 27, 2014
