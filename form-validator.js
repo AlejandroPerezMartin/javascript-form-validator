@@ -23,7 +23,9 @@
      * @type {Object}
      */
     var errorMessages = {
-        alphanumeric: "The %s field only allow numbers and letters",
+        alphabetic: "This field only allows alphabetical characters and spaces",
+        alphanumeric: "The %s field only allow numbers, letters, spaces and dashes",
+        address: "Please enter a valid address",
         defaultError: "This field is invalid",
         email: "You entered an invalid email",
         equal_to: "The %s field must to be equal to %a",
@@ -37,9 +39,9 @@
         name: "The %s field only allows alphabetic characters, spaces and dashes",
         required: "This field is required",
         spanish_dni: "The %s field only allows 8 numbers and 1 character",
-        spanish_mobile: "The %s field only allows 9 numbers",
-        spanish_phone: "The %s field only allows 9 numbers",
-        spanish_postal: "The %s field only allows 5 numbers",
+        spanish_mobile: "The %s field only allows 9 numbers starting by 6 or 7",
+        spanish_phone: "The %s field only allows 9 numbers starting by 6, 7, 8 or 9",
+        spanish_postal: "Please enter a valid postal code",
         url: "This is not a valid URL",
         username: "The %s field only allows numbers, letters, '-' and '_'"
     },
@@ -50,8 +52,9 @@
          *
          * @type {RegExp}
          */
-        alphanumericRegex = /^[a-zA-Z0-9]+$/,
-        charsRegex = /^[A-z- 'áéíóúñçÁÉÍÓÚÑÇ]+$/,
+        alphanumericRegex = /^[A-z0-9- 'áéíóúñçÁÉÍÓÚÑÇ]+$/,
+        alphabeticRegex = /^[A-z 'áéíóúñçÁÉÍÓÚÑÇ]+$/,
+        addressRegex = /^[A-z0-9-,º 'áéíóúñçÁÉÍÓÚÑÇ]+$/,
         emailRegex = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
         integerRegex = /^\-?[0-9]+$/,
         spanishDniRegex = /^[0-9]{8}[a-zA-Z]{1}$/,
@@ -151,29 +154,35 @@
 
                 for (var i = 0, len = this.fields.length; i < len; i += 1) {
 
-                    (function (i) {
-                        var currentField = self.fields[i];
+                    var currentField = self.fields[i];
 
-                        // Validate field after losing focus
-                        self.form[currentField.name].addEventListener('blur', function () {
-                            self.validateField(currentField);
+                    if (!self.form[currentField.name].length) {
 
-                            // Validate field on keyboard key release
-                            this.addEventListener('keyup', function () {
+                        (function (currentField) {
+
+                            // Validate field after losing focus
+                            self.form[currentField.name].addEventListener('blur', function () {
                                 self.validateField(currentField);
-                            });
-                        });
 
-                    })(i);
+                                // Validate field on keyboard key release
+                                this.addEventListener('keyup', function () {
+                                    self.validateField(currentField);
+                                });
+
+                            });
+
+                        })(currentField);
+
+                    }
                 }
             }
 
             // Validate form on submit
             this.form.onsubmit = function (evt) {
 
+                evt.preventDefault();
                 if (!self.validateForm(self.fields)) {
 
-                    evt.preventDefault();
 
                     if (!document.getElementsByClassName('js-form-error-message')[0]) {
 
@@ -254,6 +263,10 @@
             if (arg) {
                 if (!this.validators[rule](formField, arg)) {
 
+                    if (formField.length) {
+                        formField = formField[formField.length - 1];
+                    }
+
                     removeClass(formField, 'js-form-field-valid');
                     addClass(formField, 'js-form-field-invalid');
                     removeNextSibling(formField, 'js-form-field-error');
@@ -266,6 +279,10 @@
             else {
                 if (!this.validators[rule](formField)) {
 
+                    if (formField.length) {
+                        formField = formField[formField.length - 1];
+                    }
+
                     removeClass(formField, 'js-form-field-valid');
                     addClass(formField, 'js-form-field-invalid');
                     removeNextSibling(formField, 'js-form-field-error');
@@ -274,6 +291,10 @@
                     return false; // stop checking rules if one of them doesn't pass the test
                 }
             }
+        }
+
+        if (formField.length) {
+            formField = formField[formField.length - 1];
         }
 
         // Field is valid
@@ -292,8 +313,14 @@
      * @return {Boolean} Returns true if regular expression test is passed, otherwise false
      */
     FormValidator.prototype.validators = {
+        address: function (field) {
+            return addressRegex.test(field.value);
+        },
         alphanumeric: function (field) {
             return alphanumericRegex.test(field.value);
+        },
+        alphabetic: function (field) {
+            return alphabeticRegex.test(field.value);
         },
         email: function (field) {
             return emailRegex.test(field.value);
@@ -314,7 +341,6 @@
             return (integerRegex.test(field.value) && integerRegex.test(value) && field.value <= parseInt(value));
         },
         match: function (field, value) {
-            console.log(value);
             return (alphanumericRegex.test(field.value) && alphanumericRegex.test(value) && field.value === value);
         },
         max_length: function (field, length) {
@@ -324,7 +350,7 @@
             return (integerRegex.test(length) && field.value.length >= parseInt(length));
         },
         name: function (field) {
-            return charsRegex.test(field.value);
+            return alphabeticRegex.test(field.value);
         },
         required: function (field) {
             if (field.type === 'checkbox' || field.type === 'radio') {
