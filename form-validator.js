@@ -264,8 +264,8 @@
             if (arg) {
                 if (!this.validators[rule](formField, arg)) {
 
-                    // If radiobutton or checkbox, error message is appended to last item
-                    if (formField.length) {
+                    // If radiobutton, error message is appended to last item
+                    if (formField.length && formField[0].type === 'radio') {
                         formField = formField[formField.length - 1];
                     }
 
@@ -281,8 +281,8 @@
             else {
                 if (!this.validators[rule](formField)) {
 
-                    // If radiobutton or checkbox, error message is appended to last item
-                    if (formField.length) {
+                    // If radiobutton, error message is appended to last item
+                    if (formField.length && formField[0].type === 'radio') {
                         formField = formField[formField.length - 1];
                     }
 
@@ -296,8 +296,8 @@
             }
         }
 
-        // Remove error message if radiobutton or checkbox
-        if (formField.length) {
+        // Remove error message if radiobutton
+        if (formField.length && formField[0].type === 'radio') {
             formField = formField[formField.length - 1];
         }
 
