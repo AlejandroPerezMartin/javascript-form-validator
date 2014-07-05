@@ -303,12 +303,17 @@
             formField = formField[formField.length - 1];
         }
 
-        // If the field is not required and is empty, it's valid
-        // Field is valid
         removeNextSibling(formField, 'js-form-field-error');
         removeClass(formField, 'js-form-field-invalid');
-        addClass(formField, 'js-form-field-valid');
 
+        // If the field is not required and is empty, it's valid
+        if (!isRequired && isEmpty) {
+            removeClass(formField, 'js-form-field-valid');
+        }
+        // Field is not empty and valid
+        else {
+            addClass(formField, 'js-form-field-valid');
+        }
 
         return true;
     };

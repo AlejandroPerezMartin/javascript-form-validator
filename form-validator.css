@@ -17,7 +17,8 @@
     font-weight: bold;
 }
 
-.js-form input {
+.js-form input,
+.js-form textarea {
     background: #fff;
     border: 1px solid #ccc;
     border-radius: .5em;
@@ -33,7 +34,8 @@
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
-.js-form input:focus {
+.js-form input:focus,
+.js-form textarea:focus {
     border-color: #60bcd9;
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.1), 0 0 6px #acd7d1;
     -moz-box-shadow: 0 1px 1px rgba(0,0,0,.1), 0 0 6px #acd7d1;
