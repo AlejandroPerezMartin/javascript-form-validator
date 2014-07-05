@@ -245,15 +245,16 @@
             return false;
         }
 
-        var formField = this.form[field.name];
+        var formField = this.form[field.name],
+            isRequired = (field.rules.indexOf('required') !== -1),
+            isEmpty = (!formField.value || formField.value === '' || formField.value === undefined);
+
 
         // Validate each rule for the current field
         for (var i = 0, len = field.rules.length; i < len; i++) {
 
             var rule = field.rules[i].split('=')[0], // get rule name
-                arg = field.rules[i].split('=')[1], // get rule parameter
-                isRequired = (field.rules.indexOf('required') !== -1),
-                isEmpty = (!formField.value || formField.value === '' || formField.value === undefined);
+                arg = field.rules[i].split('=')[1]; // get rule parameter
 
             // If the field is not required and is empty, it's valid
             if (!isRequired && isEmpty) {
@@ -301,10 +302,13 @@
             formField = formField[formField.length - 1];
         }
 
-        // Field is valid
-        removeNextSibling(formField, 'js-form-field-error');
-        removeClass(formField, 'js-form-field-invalid');
-        addClass(formField, 'js-form-field-valid');
+        // If the field is not required and is empty, it's valid
+        if (isRequired || (!isRequired && !isEmpty)) {
+            // Field is valid
+            removeNextSibling(formField, 'js-form-field-error');
+            removeClass(formField, 'js-form-field-invalid');
+            addClass(formField, 'js-form-field-valid');
+        }
 
         return true;
     };
