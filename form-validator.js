@@ -180,9 +180,9 @@
             // Validate form on submit
             this.form.onsubmit = function (evt) {
 
-                evt.preventDefault();
                 if (!self.validateForm(self.fields)) {
 
+                    evt.preventDefault();
 
                     if (!document.getElementsByClassName('js-form-error-message')[0]) {
 
