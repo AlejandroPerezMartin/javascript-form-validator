@@ -156,6 +156,7 @@
 
                     var currentField = self.fields[i];
 
+                    // Avoid attaching 'blur' event to radiobuttons
                     if (!self.form[currentField.name].length) {
 
                         (function (currentField) {
@@ -263,6 +264,7 @@
             if (arg) {
                 if (!this.validators[rule](formField, arg)) {
 
+                    // If radiobutton or checkbox, error message is appended to last item
                     if (formField.length) {
                         formField = formField[formField.length - 1];
                     }
@@ -279,6 +281,7 @@
             else {
                 if (!this.validators[rule](formField)) {
 
+                    // If radiobutton or checkbox, error message is appended to last item
                     if (formField.length) {
                         formField = formField[formField.length - 1];
                     }
@@ -293,6 +296,7 @@
             }
         }
 
+        // Remove error message if radiobutton or checkbox
         if (formField.length) {
             formField = formField[formField.length - 1];
         }
