@@ -157,24 +157,25 @@
                     var currentField = self.fields[i];
 
                     // Avoid attaching 'blur' event to radiobuttons
-                    if (!self.form[currentField.name].length) {
+                    if (self.form[currentField.name].length && self.form[currentField.name][0].type === 'radio') {
+                        continue;
+                    }
 
-                        (function (currentField) {
+                    (function (currentField) {
 
-                            // Validate field after losing focus
-                            self.form[currentField.name].addEventListener('blur', function () {
+                        // Validate field after losing focus
+                        self.form[currentField.name].addEventListener('blur', function () {
+                            self.validateField(currentField);
+
+                            // Validate field on keyboard key release
+                            this.addEventListener('keyup', function () {
                                 self.validateField(currentField);
-
-                                // Validate field on keyboard key release
-                                this.addEventListener('keyup', function () {
-                                    self.validateField(currentField);
-                                });
-
                             });
 
-                        })(currentField);
+                        });
 
-                    }
+                    })(currentField);
+
                 }
             }
 
@@ -303,12 +304,11 @@
         }
 
         // If the field is not required and is empty, it's valid
-        if (isRequired || (!isRequired && !isEmpty)) {
-            // Field is valid
-            removeNextSibling(formField, 'js-form-field-error');
-            removeClass(formField, 'js-form-field-invalid');
-            addClass(formField, 'js-form-field-valid');
-        }
+        // Field is valid
+        removeNextSibling(formField, 'js-form-field-error');
+        removeClass(formField, 'js-form-field-invalid');
+        addClass(formField, 'js-form-field-valid');
+
 
         return true;
     };
