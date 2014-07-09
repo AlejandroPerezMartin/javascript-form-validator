@@ -1,16 +1,17 @@
 /**
+ * JavaScript Form Validator
  *
  * Copyright (c) 2014 Alejandro Perez Martin (AlePerez92)
  *
  * @name          JavaScript Form Validator (Form-Validator.js)
- * @description   JavaScript form Validator.
+ * @description   JavaScript form Validator, offers validation while user is typing and no other libraries dependency!
+ * @license       GNU General Public License (GPL), https://www.gnu.org/licenses/gpl.html
  * @version       1.0.0
- * @build         June 27, 2014
- * @url           http://github.com/alejandroperezmartin/javascript-form-validator
+ * @build         July 09, 2014
+ * @repository    http://github.com/alejandroperezmartin/javascript-form-validator
  *
  * @author        Alejandro Perez Martin
  * @authorUrl     https://www.linkedin.com/in/aleperez92
- *
  */
 
 (function (window, undefined) {
@@ -57,6 +58,7 @@
         addressRegex = /^[A-z0-9-,º 'áéíóúñçÁÉÍÓÚÑÇ]+$/,
         emailRegex = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
         integerRegex = /^\-?[0-9]+$/,
+        nameRegex = /^([A-z- 'áéíóúñçÁÉÍÓÚÑÇ]+[ ]?){1,}$/,
         spanishDniRegex = /^[0-9]{8}[a-zA-Z]{1}$/,
         spanishMobileRegex = /^[67]{1}[0-9]{8}$/,
         spanishPhoneRegex = /^[6789]{1}[0-9]{8}$/,
@@ -218,6 +220,7 @@
      * @return {Boolean} Returns true if all the fields are valid, otherwise false
      */
     FormValidator.prototype.validateForm = function (fields) {
+
         if (fields.length <= 0) {
             return false;
         }
@@ -322,18 +325,20 @@
     /*
      * Returns boolean indicating if field matches a regular expression
      *
-     * @param {Object} field
+     * @param {Object} field Form's field from DOM
+     * @param {String} length Value used to be compared to field's length
+     * @param {String} value Value used to be compared to field's value
      * @return {Boolean} Returns true if regular expression test is passed, otherwise false
      */
     FormValidator.prototype.validators = {
         address: function (field) {
-            return addressRegex.test(field.value);
+            return addressRegex.test(field.value.trim());
         },
         alphanumeric: function (field) {
-            return alphanumericRegex.test(field.value);
+            return alphanumericRegex.test(field.value.trim());
         },
         alphabetic: function (field) {
-            return alphabeticRegex.test(field.value);
+            return alphabeticRegex.test(field.value.trim());
         },
         email: function (field) {
             return emailRegex.test(field.value);
@@ -342,7 +347,7 @@
             return (integerRegex.test(value) && field.value === parseInt(value));
         },
         exact_length: function (field, length) {
-            return (integerRegex.test(length) && field.value.length === parseInt(length));
+            return (integerRegex.test(length) && field.value.trim().length === parseInt(length));
         },
         greater_than: function (field, value) {
             return (integerRegex.test(field.value) && integerRegex.test(value) && field.value >= parseInt(value));
@@ -357,19 +362,19 @@
             return (alphanumericRegex.test(field.value) && alphanumericRegex.test(value) && field.value === value);
         },
         max_length: function (field, length) {
-            return (integerRegex.test(length) && field.value.length <= parseInt(length));
+            return (integerRegex.test(length) && field.value.trim().length <= parseInt(length));
         },
         min_length: function (field, length) {
-            return (integerRegex.test(length) && field.value.length >= parseInt(length));
+            return (integerRegex.test(length) && field.value.trim().length >= parseInt(length));
         },
         name: function (field) {
-            return alphabeticRegex.test(field.value);
+            return nameRegex.test(field.value);
         },
         required: function (field) {
             if (field.type === 'checkbox' || field.type === 'radio') {
                 return field.checked;
             }
-            return (field.value !== null && field.value !== '');
+            return (field.value.trim() !== null && field.value.trim() !== '');
         },
         spanish_dni: function (field) {
             if (spanishDniRegex.test(field.value)) {
