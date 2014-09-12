@@ -7,7 +7,7 @@
  * @description   JavaScript form Validator, offers validation while user is typing and no other libraries dependency!
  * @license       GNU General Public License (GPL), https://www.gnu.org/licenses/gpl.html
  * @version       1.0.0
- * @build         July 09, 2014
+ * @build         September 12, 2014
  * @repository    http://github.com/alejandroperezmartin/javascript-form-validator
  *
  * @author        Alejandro Perez Martin
@@ -53,12 +53,12 @@
          *
          * @type {RegExp}
          */
-        alphanumericRegex = /^[A-z0-9- 'áéíóúñçÁÉÍÓÚÑÇ]+$/,
-        alphabeticRegex = /^[A-z 'áéíóúñçÁÉÍÓÚÑÇ]+$/,
-        addressRegex = /^[A-z0-9-,º 'áéíóúñçÁÉÍÓÚÑÇ]+$/,
+        alphanumericRegex = /^[A-z0-9áéíóúñçÁÉÍÓÚÑÇ]+$/,
+        alphabeticRegex = /^[A-záéíóúñçÁÉÍÓÚÑÇ]+$/,
+        addressRegex = /^[A-z0-9 áéíóúñçÁÉÍÓÚÑÇ'´.,-ºª]+$/,
         emailRegex = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
-        integerRegex = /^\-?[0-9]+$/,
-        nameRegex = /^([A-z- 'áéíóúñçÁÉÍÓÚÑÇ]+[ ]?){1,}$/,
+        integerRegex = /^[0-9]+$/,
+        nameRegex = /^([A-záéíóúñçÁÉÍÓÚÑÇ]+[ -´']?)+$/,
         spanishDniRegex = /^[0-9]{8}[a-zA-Z]{1}$/,
         spanishMobileRegex = /^[67]{1}[0-9]{8}$/,
         spanishPhoneRegex = /^[6789]{1}[0-9]{8}$/,
