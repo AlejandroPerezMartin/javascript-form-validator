@@ -7,7 +7,7 @@
  * @description   JavaScript form Validator, offers validation while user is typing and no other libraries dependency!
  * @license       GNU General Public License (GPL), https://www.gnu.org/licenses/gpl.html
  * @version       1.0.0
- * @build         September 12, 2014
+ * @build         March 10, 2015
  * @repository    http://github.com/alejandroperezmartin/javascript-form-validator
  *
  * @author        Alejandro Perez Martin
@@ -186,15 +186,19 @@
 
                 if (!self.validateForm(self.fields)) {
 
-                    evt.preventDefault();
+                    evt.preventDefault(); // if there are errors in the form, stop form submitting
 
-                    if (!document.getElementsByClassName('js-form-error-message')[0]) {
+                    if (showErrorsInfo) {
 
-                        var error_message_div = document.createElement('DIV');
-                        error_message_div.className = 'js-form-error-message';
-                        error_message_div.innerHTML = '<span class="js-form-error-message-title">Ooooops!</span>This form seems to have errors.';
+                        if (!document.getElementsByClassName('js-form-error-message')[0]) {
 
-                        self.form.insertBefore(error_message_div, self.form.firstChild);
+                            var error_message_div = document.createElement('DIV');
+                            error_message_div.className = 'js-form-error-message';
+                            error_message_div.innerHTML = '<span class="js-form-error-message-title">Ooooops!</span>This form seems to have errors.';
+
+                            self.form.insertBefore(error_message_div, self.form.firstChild);
+                        }
+
                     }
                 }
             };

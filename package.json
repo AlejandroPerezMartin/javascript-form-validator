@@ -9,7 +9,7 @@
     },
     "version": "1.0.0",
     "devDependencies": {
-        "grunt": "latest",
+        "grunt": "latest",/Users/alejandro/Desktop/javascript-form-validator/Gruntfile.js
         "grunt-contrib-csslint": "latest",
         "grunt-contrib-cssmin": "latest",
         "grunt-contrib-jshint": "latest",
