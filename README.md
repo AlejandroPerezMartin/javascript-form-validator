@@ -2,6 +2,8 @@
 
 JavaScript Form Validator
 =========================
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/AlejandroPerezMartin/javascript-form-validator.svg)](https://greenkeeper.io/)
 JavaScript Form Validator inspired by the great Validate.js
 
 No dependencies!
